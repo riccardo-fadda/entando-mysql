@@ -36,6 +36,8 @@ RUN dnf install -y microdnf \
   && microdnf clean all \
   && mkdir /docker-entrypoint-initdb.d
 
+USER root
+
 COPY prepare-image.sh /
 RUN /prepare-image.sh && rm -f /prepare-image.sh
 
