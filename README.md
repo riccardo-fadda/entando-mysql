@@ -2,7 +2,7 @@ MySQL 8.0 SQL Database Server container image
 =============================================
 
 This container image includes MySQL 8.0 SQL database server for  general usage.
-Users can choose between RHEL8 and Rokylinux8 based images.
+Users can choose between RHEL8 and RockyLinux8 based images.
 
 Description
 -----------
