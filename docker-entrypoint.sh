@@ -62,7 +62,6 @@ if [ "$1" = 'mysqld' ]; then
 	fi
 
 	# Get config
-	DATADIR="$(_get_config 'datadir' "$@")"
 	SOCKET="$(_get_config 'socket' "$@")"
 
 	if [ ! -d "$DATADIR/mysql" ]; then
