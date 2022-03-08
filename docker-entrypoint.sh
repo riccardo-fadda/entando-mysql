@@ -62,8 +62,7 @@ if [ "$1" = 'mysqld' ]; then
 	fi
 
 	# Get config
-	DATADIR="$(_get_config 'datadir' "$@")"
-	SOCKET="$(_get_config 'socket' "$@")"
+ 	SOCKET="$(_get_config 'socket' "$@")"
 
 	if [ ! -d "$DATADIR/mysql" ]; then
 		# If the password variable is a filename we use the contents of the file. We
@@ -95,10 +94,10 @@ if [ "$1" = 'mysqld' ]; then
 		# will be restarted using the user's option.
 
 		echo '[Entrypoint] Initializing database'
-		"$@" --user=$MYSQLD_USER --initialize-insecure  --default-time-zone=+00:00
+		"$@" --user=$MYSQLD_USER --initialize-insecure --datadir=${DATADIR} --default-time-zone=+00:00
 
 		echo '[Entrypoint] Database initialized'
-		"$@" --user=$MYSQLD_USER --daemonize --skip-networking --socket="$SOCKET" --default-time-zone=+00:00
+		"$@" --user=$MYSQLD_USER --daemonize --skip-networking --socket="$SOCKET" --datadir=${DATADIR} --default-time-zone=+00:00
 
 		# To avoid using password on commandline, put it in a temporary file.
 		# The file is only populated when and if the root password is set.
@@ -224,7 +223,7 @@ EOF
 	fi
 	# 4th value of /proc/$pid/stat is the ppid, same as getppid()
 	export MYSQLD_PARENT_PID=$(cat /proc/$$/stat|cut -d\  -f4)
-	exec "$@" --user=$MYSQLD_USER
+	exec "$@" --datadir=${DATADIR} --user=$MYSQLD_USER
 else
 	exec "$@"
 fi
